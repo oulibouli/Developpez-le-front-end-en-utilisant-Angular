@@ -1,3 +1,17 @@
 <h2>Olympic games app</h2>
 <hr />
-<p>{{ (olympics$ | async)?.length }} data loaded</p>
+<div style="display: block;">
+    <ngx-charts-pie-chart
+        [view]="view"
+        [results]="olympicData"
+        [gradient]="gradient"
+        [gradient]="gradient"
+        [legend]="showLegend"
+        [labels]="labels"
+        [doughnut]="doughnut"
+        [arcWidth]="arcWidth"
+        [tooltipDisabled]="tooltipDisabled"
+        (select)="chooseCountry($event)"
+        [animations]="animations">
+    </ngx-charts-pie-chart>
+  </div>  
