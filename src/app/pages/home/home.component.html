@@ -1,5 +1,8 @@
-<h2>Olympic games app</h2>
-<hr />
+<h2>{{ title }}</h2>
+<p>
+    Number of jos : {{ nbJos }}
+    Number of countries : {{ nbCountries }}
+</p>
 <div style="display: block;">
     <ngx-charts-pie-chart
         [view]="view"
@@ -13,5 +16,13 @@
         [tooltipDisabled]="tooltipDisabled"
         (select)="chooseCountry($event)"
         [animations]="animations">
+        <ng-template #tooltipTemplate let-model="model">
+            <!-- fields are series/name/value -->
+            <div class="tt">
+                {{ model.name }}<br/> 
+                🏅
+                {{ model.value }}
+            </div>
+        </ng-template>
     </ngx-charts-pie-chart>
-  </div>  
+</div>

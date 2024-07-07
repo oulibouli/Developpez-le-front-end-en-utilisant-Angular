@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { OlympicCountry } from 'src/app/core/models/Olympic';
 import { Participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,11 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 
 export class HomeComponent implements OnInit {
   public olympics$!: Observable<OlympicCountry[]>
+  public data$!: Observable<any[]>;
   olympicData: any[] = []
+  title: string = "Medals per country";
+  nbJos!: number
+  nbCountries!: number
 
   // On définit les paramètres utiles a ngx-charts
   view: [number, number] = [700, 400];
@@ -30,27 +35,39 @@ export class HomeComponent implements OnInit {
   tooltipDisabled=false;
   animations=true;
 
-  constructor(private olympicService: OlympicService) {}
+  constructor(private olympicService: OlympicService, private router: Router) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
-    this.olympics$.subscribe((response) => {
-      this.olympicData = response?.map((oc) => ({ // Mapping des donnees dans le tableau olympicData
-        name: oc.country,
-        value: oc.participations.reduce(
-          (total: number, participation: Participation) =>
-            total + participation.medalsCount,
-          0
-        ),
+
+    this.data$ = this.olympics$.pipe(
+      map(response => {
+        this.nbCountries = response.length;
+        return response.map(country => ({
+        name: country.country,
+        value: this.calculations(country.participations),
         extra: {
-          id: oc.id,
-        },
-      }));
-    })
+          id: country.id,
+        }
+      }))})
+    );
+
+    this.data$.subscribe(data => {
+      this.olympicData = data;
+    });
+  }
+  calculations(participations: Participation[]): number {
+    const jos = new Set();
+    for (const participation of participations) {
+      const keyJos = `${participation.year}-${participation.city}`;
+      jos.add(keyJos);
+    }
+    this.nbJos = jos.size
+    return participations.reduce((total, participation) => total + participation.medalsCount, 0);
   }
   chooseCountry(event: any) {
     const id = event.extra.id
-      console.log(id)
+    this.router.navigateByUrl(`/detail/${id}`)
   }
 }
 

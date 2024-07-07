@@ -1,0 +1,25 @@
+<h2>{{ title }}</h2>
+<a routerLink="/"><button>Retour</button></a>
+<p>
+    Nb of entries : {{ nbParticipations }}
+    Total number medals : {{ nbMedals }}
+    Total number athletes : {{ nbAthletes }}
+</p>
+<div *ngIf="data$ | async as data; else loading">
+    <ngx-charts-line-chart
+    [view]="view"
+    [results]="data"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel">
+    </ngx-charts-line-chart>
+  </div>
+  <ng-template #loading>
+    <p>Loading...</p>
+  </ng-template>
+  
