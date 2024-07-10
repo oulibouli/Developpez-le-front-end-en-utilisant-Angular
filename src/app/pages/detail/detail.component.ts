@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { DetailMappedData } from 'src/app/core/models/detail-mapped-data';
 import { OlympicCountry } from 'src/app/core/models/Olympic';
 import { Participation } from 'src/app/core/models/Participation';
@@ -14,6 +14,7 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 export class DetailComponent implements OnInit {
   public olympics$!: Observable<OlympicCountry[]>
   public data!: DetailMappedData[]
+  private destroy$ = new Subject<void>();
   id!: number
   title!: string
   nbParticipations!: number
@@ -34,7 +35,7 @@ export class DetailComponent implements OnInit {
 
   constructor(private olympicService: OlympicService,private route: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.id = Number(this.route.snapshot.params['id'])
 
     this.olympics$ = this.olympicService.getOlympics();
@@ -50,11 +51,15 @@ export class DetailComponent implements OnInit {
           return this.transformDataForChart(countryData.participations);
         }
         else return []
-      })
+      }),
+      takeUntil(this.destroy$) // Using takeUntil to unsubscribe to the observable when using ngOnDestroy
     ).subscribe(data => {
       this.data = data;
     });
-  
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.complete()
   }
   transformDataForChart(participations: Participation[]): any[] {
     return [

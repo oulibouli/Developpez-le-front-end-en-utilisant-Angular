@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { OlympicCountry } from 'src/app/core/models/Olympic';
 import { Participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
@@ -15,6 +15,7 @@ import { OlympicMappedData } from 'src/app/core/models/olympic-mapped-data';
 export class HomeComponent implements OnInit {
   public olympics$!: Observable<OlympicCountry[]>
   public data: OlympicMappedData[] = [];
+  private destroy$ = new Subject<void>()
   title: string = "Medals per country";
   nbJos!: number
   nbCountries!: number
@@ -53,10 +54,16 @@ export class HomeComponent implements OnInit {
           }))
         }
         else return []
-      })
+      }),
+      takeUntil(this.destroy$) // Using takeUntil to unsubscribe to the observable when using ngOnDestroy
     ).subscribe(data => {
       this.data = data;
     });
+  }
+
+  ngOnDestroy():void {
+    this.destroy$.next()
+    this.destroy$.complete()
   }
   
   calculations(participations: Participation[]): number {
