@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { count, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { DetailMappedData } from 'src/app/core/models/detail-mapped-data';
 import { OlympicCountry } from 'src/app/core/models/Olympic';
 import { Participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
@@ -12,7 +13,7 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 })
 export class DetailComponent implements OnInit {
   public olympics$!: Observable<OlympicCountry[]>
-  public data$!: Observable<any[]>;
+  public data!: DetailMappedData[]
   id!: number
   title!: string
   nbParticipations!: number
@@ -37,8 +38,7 @@ export class DetailComponent implements OnInit {
     this.id = Number(this.route.snapshot.params['id'])
 
     this.olympics$ = this.olympicService.getOlympics();
-
-    this.data$ = this.olympics$.pipe(
+    this.olympics$.pipe(
       map(response => {
         const countryData = response.find(c => c.id === this.id);
         if(countryData){
@@ -51,7 +51,9 @@ export class DetailComponent implements OnInit {
         }
         else return []
       })
-    );
+    ).subscribe(data => {
+      this.data = data;
+    });
   
   }
   transformDataForChart(participations: Participation[]): any[] {

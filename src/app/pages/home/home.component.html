@@ -3,10 +3,10 @@
     Number of jos : {{ nbJos }}
     Number of countries : {{ nbCountries }}
 </p>
-<div style="display: block;">
+<div *ngIf="data; else loading" style="display: block;">
     <ngx-charts-pie-chart
         [view]="view"
-        [results]="olympicData"
+        [results]="data"
         [gradient]="gradient"
         [gradient]="gradient"
         [legend]="showLegend"
@@ -26,3 +26,6 @@
         </ng-template>
     </ngx-charts-pie-chart>
 </div>
+<ng-template #loading>
+    <p>Loading...</p>
+  </ng-template>

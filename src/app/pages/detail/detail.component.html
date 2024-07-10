@@ -5,7 +5,7 @@
     Total number medals : {{ nbMedals }}
     Total number athletes : {{ nbAthletes }}
 </p>
-<div *ngIf="data$ | async as data; else loading">
+<div *ngIf="data; else loading">
     <ngx-charts-line-chart
     [view]="view"
     [results]="data"

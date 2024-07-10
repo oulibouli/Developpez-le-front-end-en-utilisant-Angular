@@ -4,6 +4,7 @@ import { OlympicCountry } from 'src/app/core/models/Olympic';
 import { Participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Router } from '@angular/router';
+import { OlympicMappedData } from 'src/app/core/models/olympic-mapped-data';
 
 @Component({
   selector: 'app-home',
@@ -13,8 +14,7 @@ import { Router } from '@angular/router';
 
 export class HomeComponent implements OnInit {
   public olympics$!: Observable<OlympicCountry[]>
-  public data$!: Observable<any[]>;
-  olympicData: any[] = []
+  public data: OlympicMappedData[] = [];
   title: string = "Medals per country";
   nbJos!: number
   nbCountries!: number
@@ -40,22 +40,25 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
 
-    this.data$ = this.olympics$.pipe(
+    this.olympics$.pipe(
       map(response => {
         this.nbCountries = response.length;
-        return response.map(country => ({
-        name: country.country,
-        value: this.calculations(country.participations),
-        extra: {
-          id: country.id,
+        if(this.nbCountries > 0) {
+          return response.map(country => ({
+            name: country.country,
+            value: this.calculations(country.participations),
+            extra: {
+              id: country.id,
+            }
+          }))
         }
-      }))})
-    );
-
-    this.data$.subscribe(data => {
-      this.olympicData = data;
+        else return []
+      })
+    ).subscribe(data => {
+      this.data = data;
     });
   }
+  
   calculations(participations: Participation[]): number {
     const jos = new Set();
     for (const participation of participations) {
