@@ -1,10 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
-import { OlympicCountry } from 'src/app/core/models/Olympic';
-import { Participation } from 'src/app/core/models/Participation';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { OlympicCountry, OlympicMappedData } from 'src/app/core/models/interfaces';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Router } from '@angular/router';
-import { OlympicMappedData } from 'src/app/core/models/mapped-data';
 import { CHART_CONFIG } from 'src/app/core/config/chart-config';
 
 @Component({
