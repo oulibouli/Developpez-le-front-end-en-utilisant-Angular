@@ -1,1 +1,90 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* vertically align */
+    margin-top: 20px;
+}
+
+.title {
+    text-align: center;
+    color: #fff;
+    font-size: 24px;
+    padding: 10px 20px;
+    border: 2px solid #00adb5;
+    border-radius: 10px;
+    background-color: #00adb5;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Allow line wrapping for elements */
+    margin: 20px;
+}
+
+.boxes {
+    border: 1px solid #00adb5;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 10px;
+    text-align: center;
+    background-color: #ffffff;
+    flex: 1 1 300px; /* Boxes with flexible width and minimum width of 300px */
+}
+
+.boxes p {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.boxes p:nth-of-type(2) {
+    font-weight: bold;
+}
+
+#chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    margin: 20px;
+}
+
+.tooltip {
+    background: #008b8b;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+button {
+    background: #00adb5;
+    border-radius: 5px;
+    border: 5px;
+    color: #ffffff;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Switch to a column layout on small screens. */
+        align-items: stretch; /* Stretch elements across the entire width */
+    }
+
+    .boxes {
+        flex: 1 1 100%; /* box on full width */
+        margin: 10px 0;
+    }
+}

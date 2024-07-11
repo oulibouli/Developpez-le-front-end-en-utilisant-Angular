@@ -1,3 +1,5 @@
+import { LegendPosition } from "@swimlane/ngx-charts";
+
 // Define the parameters for the charts
 export const CHART_CONFIG = {
     view: [700, 400] as [number, number],
@@ -14,4 +16,5 @@ export const CHART_CONFIG = {
     arcWidth: 0.35,
     tooltipDisabled: false,
     animations: true,
+    legendposition: LegendPosition.Right
 }

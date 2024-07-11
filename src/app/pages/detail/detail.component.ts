@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LegendPosition } from '@swimlane/ngx-charts';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CHART_CONFIG } from 'src/app/core/config/chart-config';
 import { OlympicCountry, DetailMappedData } from 'src/app/core/models/interfaces';
@@ -22,6 +23,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   // Get the parameters for ngx-charts
   view = CHART_CONFIG.view;
+  legendPosition = CHART_CONFIG.legendposition
   showXAxis = CHART_CONFIG.showXAxis;
   showYAxis = CHART_CONFIG.showYAxis;
   gradient = CHART_CONFIG.gradient;
@@ -35,6 +37,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   constructor(private olympicService: OlympicService,private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.adjustViewBasedOnWindowSize();
+    
     this.id = Number(this.route.snapshot.params['id'])
     this.olympicService.getCountryMappedData(this.id).pipe(
       takeUntil(this.destroy$)
@@ -49,5 +53,21 @@ export class DetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next()
     this.destroy$.complete()
+  }
+  /* Listening on resizing the window to make the chart responsive */
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.adjustViewBasedOnWindowSize();
+  }
+  
+  /* Making the chart responsive */
+  adjustViewBasedOnWindowSize() {
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 768) {
+        this.view = [screenWidth - 30, 300]; // adjust chart for small screens
+        this.legendPosition = LegendPosition.Below // Put the legend below to read correctly
+    } else {
+      this.view = CHART_CONFIG.view; // Default value
+    }
   }
 }

@@ -1,10 +1,19 @@
-<h2>{{ title }}</h2>
-<p>
-    Number of jos : {{ nbJos }}
-    Number of countries : {{ nbCountries }}
-</p>
-<div *ngIf="data; else loading" style="display: block;">
+<div class="title-container">
+    <h1 class="title">{{ title }}</h1>
+</div>
+<div class="container">
+    <div class="boxes">
+        <p>Number of JOs</p>
+        <p>{{ nbJos }}</p>
+    </div>
+    <div class="boxes">
+        <p>Number of countries</p>
+        <p>{{ nbCountries }}</p>
+    </div>
+</div>
+<div id="chart-container" *ngIf="data; else loading">
     <ngx-charts-pie-chart
+        [legendPosition]="legendPosition"
         [view]="view"
         [results]="data"
         [gradient]="gradient"
@@ -17,7 +26,7 @@
         (select)="chooseCountry($event)"
         [animations]="animations">
         <ng-template #tooltipTemplate let-model="model">
-            <div class="tt">
+            <div class="tooltip">
                 {{ model.name }}
                 <br/>
                 🏅
