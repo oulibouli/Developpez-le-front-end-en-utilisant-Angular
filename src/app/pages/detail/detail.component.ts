@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
-import { DetailMappedData } from 'src/app/core/models/detail-mapped-data';
+import { CHART_CONFIG } from 'src/app/core/config/chart-config';
+import { DetailMappedData } from 'src/app/core/models/mapped-data';
 import { OlympicCountry } from 'src/app/core/models/Olympic';
 import { Participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
@@ -11,7 +12,7 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.scss'
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
   public olympics$!: Observable<OlympicCountry[]>
   public data!: DetailMappedData[]
   private destroy$ = new Subject<void>();
@@ -21,55 +22,34 @@ export class DetailComponent implements OnInit {
   nbMedals!: number
   nbAthletes!: number
 
-  // On définit les paramètres utiles a ngx-charts
-  view: [number, number] = [700, 400];
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = false;
-  showXAxisLabel = true;
-  xAxisLabel = 'Dates';
-  showYAxisLabel = true;
-  yAxisLabel = 'Medal count';
-  animations = true;
+  // Get the parameters for ngx-charts
+  view = CHART_CONFIG.view;
+  showXAxis = CHART_CONFIG.showXAxis;
+  showYAxis = CHART_CONFIG.showYAxis;
+  gradient = CHART_CONFIG.gradient;
+  showLegend = CHART_CONFIG.showLegend;
+  showXAxisLabel = CHART_CONFIG.showXAxisLabel;
+  xAxisLabel = CHART_CONFIG.xAxisLabel.country;
+  showYAxisLabel = CHART_CONFIG.showXAxisLabel;
+  yAxisLabel = CHART_CONFIG.yAxisLabel.country;
+  animations= CHART_CONFIG.animations;
 
   constructor(private olympicService: OlympicService,private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.params['id'])
-
-    this.olympics$ = this.olympicService.getOlympics();
-    this.olympics$.pipe(
-      map(response => {
-        const countryData = response.find(c => c.id === this.id);
-        if(countryData){
-          this.title = countryData.country
-          this.nbParticipations = countryData.participations.length
-          this.nbMedals = countryData.participations.reduce((total, participation) => total + participation.medalsCount, 0)
-          this.nbAthletes = countryData.participations.reduce((total, participation) => total + participation.athleteCount, 0)
-
-          return this.transformDataForChart(countryData.participations);
-        }
-        else return []
-      }),
-      takeUntil(this.destroy$) // Using takeUntil to unsubscribe to the observable when using ngOnDestroy
+    this.olympicService.getCountryMappedData(this.id).pipe(
+      takeUntil(this.destroy$)
     ).subscribe(data => {
-      this.data = data;
-    });
+      this.data = data
+      this.title = this.olympicService.title
+      this.nbParticipations = this.olympicService.nbParticipations
+      this.nbMedals = this.olympicService.nbMedals
+      this.nbAthletes = this.olympicService.nbAthletes
+    })
   }
   ngOnDestroy(): void {
     this.destroy$.next()
     this.destroy$.complete()
-  }
-  transformDataForChart(participations: Participation[]): any[] {
-    return [
-      {
-        "name": "Medals Count",
-        "series": participations.map(participation => ({
-          "name": participation.year.toString(),
-          "value": participation.medalsCount
-        }))
-      }
-    ];
   }
 }

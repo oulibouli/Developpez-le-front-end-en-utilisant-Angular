@@ -5,3 +5,9 @@ export interface DetailMappedData {
         value: number
     }
 }
+
+export interface OlympicMappedData {
+    name: string,
+    value: number,
+    extra: {id:number}
+}

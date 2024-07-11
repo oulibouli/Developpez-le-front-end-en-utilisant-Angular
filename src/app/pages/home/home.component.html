@@ -17,9 +17,9 @@
         (select)="chooseCountry($event)"
         [animations]="animations">
         <ng-template #tooltipTemplate let-model="model">
-            <!-- fields are series/name/value -->
             <div class="tt">
-                {{ model.name }}<br/> 
+                {{ model.name }}
+                <br/>
                 🏅
                 {{ model.value }}
             </div>
@@ -28,4 +28,4 @@
 </div>
 <ng-template #loading>
     <p>Loading...</p>
-  </ng-template>
+</ng-template>
