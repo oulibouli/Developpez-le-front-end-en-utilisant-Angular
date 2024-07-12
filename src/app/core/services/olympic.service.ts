@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { OlympicCountry, Participation, DetailMappedData, OlympicMappedData } from 'src/app/core/models/interfaces';
 
 @Injectable({
@@ -11,8 +11,9 @@ import { OlympicCountry, Participation, DetailMappedData, OlympicMappedData } fr
 export class OlympicService {
   nbCountries!: number
   nbJos!: number
-  private olympicUrl = './assets/mock/olympifgdgdc.json';
+  private olympicUrl = './assets/mock/olympic.json';
   private olympics$ = new BehaviorSubject<OlympicCountry[]>([]);
+  private localStorageKey = 'olympicData';
   title!: string;
   nbParticipations!: number;
   nbMedals!: number;
@@ -22,34 +23,39 @@ export class OlympicService {
 
   loadInitialData() {
     return this.http.get<OlympicCountry[]>(this.olympicUrl).pipe(
-      tap((value) => this.olympics$.next(value)), // update BehaviorSubject with the new data
+      tap((value) => {
+        this.saveToLocalStorage(value);
+        this.olympics$.next(value)
+      }), // update BehaviorSubject with the new data
       catchError((error) => {
         console.error(error);
 
-        this.snackBar.open('Une erreur s\'est produite', 'Fermer', {
+        this.snackBar.open('Error', 'Close', {
           duration: 5000
         });
-
-        this.olympics$.next([]);
         return of([]); // if error, return a new empty observable
       })
     );
   }
 
+  saveToLocalStorage(data: OlympicCountry[]): void {
+    localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+  }
+
+  private getFromLocalStorage(): OlympicCountry[] {
+    const data = localStorage.getItem(this.localStorageKey);
+    return data ? JSON.parse(data) : [];
+  }
+
   getOlympics():Observable<OlympicCountry[]>{
-    return this.olympics$.pipe(
-      // Check if data are existing in olympics$
-      switchMap(cachedData => {
-        if (cachedData) {
-          // if data available in the cache we return it
-          return of(cachedData)
-        }
-        else {
-          // Else load data from the backend
-          return this.loadInitialData()
-        }
-      })
-    )
+    const cachedData = this.getFromLocalStorage()
+    if(cachedData && cachedData.length > 0) {
+      this.olympics$.next(cachedData)
+    }
+    else {
+      this.loadInitialData()
+    }
+    return this.olympics$
   }
 
   getOlympicMappedData(): Observable<OlympicMappedData[]> {
