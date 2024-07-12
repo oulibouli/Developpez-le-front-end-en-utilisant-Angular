@@ -1,6 +1,6 @@
 {
   "name": "olympic-games-starter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -20,6 +20,7 @@
     "@angular/router": "^18.0.3",
     "@swimlane/ngx-charts": "^20.5.0",
     "d3": "^7.9.0",
+    "rfdc": "^1.4.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -32,12 +33,19 @@
     "@types/d3-selection": "^3.0.10",
     "@types/d3-shape": "^3.1.6",
     "@types/jasmine": "~5.1.0",
+    "@types/karma-chrome-launcher": "^3.1.4",
+    "@types/karma-coverage": "^2.0.3",
+    "@types/karma-jasmine": "^4.0.5",
+    "@types/karma-jasmine-html-reporter": "^1.7.3",
+    "@types/karma-spec-reporter": "^0.0.6",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "karma-safari-launcher": "^1.0.0",
+    "karma-spec-reporter": "^0.0.36",
     "typescript": "~5.4.2"
   }
 }

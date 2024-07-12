@@ -1,5 +1,5 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,8 +13,8 @@ import { RouterLink } from '@angular/router';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent, DetailComponent],
-  imports: [BrowserModule, NgxChartsModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule, RouterLink],
-  providers: [],
+  imports: [BrowserModule, NgxChartsModule, AppRoutingModule, BrowserAnimationsModule, RouterLink],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

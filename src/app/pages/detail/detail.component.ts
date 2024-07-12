@@ -39,16 +39,13 @@ export class DetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.adjustViewBasedOnWindowSize();
     
-    this.id = Number(this.route.snapshot.params['id'])
-    this.olympicService.getCountryMappedData(this.id).pipe(
+    // Use paramMap instead of snapshot.params['id'] for observable based access
+    this.route.paramMap.pipe(
       takeUntil(this.destroy$)
-    ).subscribe(data => {
-      this.data = data
-      this.title = this.olympicService.title
-      this.nbParticipations = this.olympicService.nbParticipations
-      this.nbMedals = this.olympicService.nbMedals
-      this.nbAthletes = this.olympicService.nbAthletes
-    })
+    ).subscribe(params => {
+      this.id = Number(params.get('id')); // Retrieve id from paramMap
+      this.loadData() // load the data after getting the id
+    });
   }
   ngOnDestroy(): void {
     this.destroy$.next()
@@ -58,6 +55,18 @@ export class DetailComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.adjustViewBasedOnWindowSize();
+  }
+
+  loadData(): void {
+    this.olympicService.getCountryMappedData(this.id).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(data => {
+      this.data = data;
+      this.title = this.olympicService.title;
+      this.nbParticipations = this.olympicService.nbParticipations;
+      this.nbMedals = this.olympicService.nbMedals;
+      this.nbAthletes = this.olympicService.nbAthletes;
+    });
   }
   
   /* Making the chart responsive */
