@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { OlympicCountry, Participation, DetailMappedData, OlympicMappedData } from 'src/app/core/models/interfaces';
@@ -10,22 +11,25 @@ import { OlympicCountry, Participation, DetailMappedData, OlympicMappedData } fr
 export class OlympicService {
   nbCountries!: number
   nbJos!: number
-  private olympicUrl = './assets/mock/olympic.json';
+  private olympicUrl = './assets/mock/olympifgdgdc.json';
   private olympics$ = new BehaviorSubject<OlympicCountry[]>([]);
   title!: string;
   nbParticipations!: number;
   nbMedals!: number;
   nbAthletes!: number;
   
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
   loadInitialData() {
     return this.http.get<OlympicCountry[]>(this.olympicUrl).pipe(
       tap((value) => this.olympics$.next(value)), // update BehaviorSubject with the new data
-      catchError((error, caught) => {
-        // TODO: improve error handling
+      catchError((error) => {
         console.error(error);
-        // can be useful to end loading state and let the user know something went wrong
+
+        this.snackBar.open('Une erreur s\'est produite', 'Fermer', {
+          duration: 5000
+        });
+
         this.olympics$.next([]);
         return of([]); // if error, return a new empty observable
       })
