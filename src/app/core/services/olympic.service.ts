@@ -88,7 +88,7 @@ export class OlympicService {
       })
     )
   }
-  calculateCountryMappedData(participations: Participation[]): any[] {
+  calculateCountryMappedData(participations: Participation[]): DetailMappedData[] {
     return [
       {
         "name": "Medals Count",

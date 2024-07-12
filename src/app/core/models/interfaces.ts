@@ -15,7 +15,7 @@ export interface DetailMappedData {
     series: {
         name: string,
         value: number
-    }
+    }[]
 }
 export interface OlympicMappedData {
     name: string,
