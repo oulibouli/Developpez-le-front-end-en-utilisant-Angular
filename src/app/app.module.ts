@@ -9,11 +9,12 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Ajouter cette ligne
 import { DetailComponent } from './pages/detail/detail.component';
 import { RouterLink } from '@angular/router';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent, DetailComponent],
-  imports: [BrowserModule, NgxChartsModule, AppRoutingModule, BrowserAnimationsModule, RouterLink],
+  imports: [MatSnackBarModule,BrowserModule, NgxChartsModule, AppRoutingModule, BrowserAnimationsModule, RouterLink],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent],
 })
