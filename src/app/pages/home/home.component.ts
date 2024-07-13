@@ -13,9 +13,8 @@ import { LegendPosition } from '@swimlane/ngx-charts';
 })
 
 export class HomeComponent implements OnInit, OnDestroy {
-  public olympics$!: Observable<OlympicCountry[]>
-  public data: OlympicMappedData[] = [];
   private destroy$ = new Subject<void>()
+  data: OlympicMappedData[] = [];
   test!:Observable<any[]>
   title: string = "Medals per country";
   nbJos!: number
@@ -42,7 +41,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private olympicService: OlympicService, private router: Router) {}
 
   ngOnInit(): void {
+    // Make the app responsive when resizing the window
     this.adjustViewBasedOnWindowSize();
+
+    // Get the data 
     this.olympicService.getOlympicMappedData().pipe(
       takeUntil(this.destroy$)
     ).subscribe(data => {
@@ -52,21 +54,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     })
   }
 
+  // Unsuscribe the observable when destroying the component
   ngOnDestroy():void {
     this.destroy$.next()
     this.destroy$.complete()
   }
+
+  // Route to the detailed page corresponding to the chosen country
   chooseCountry(event: OlympicMappedData) {
     const id = event.extra.id
     this.router.navigateByUrl(`/detail/${id}`)
   }
 
-  /* Listening on resizing the window to make the chart responsive */
+  // Listening on resizing the window to make the chart responsive
   @HostListener('window:resize', ['$event'])
     onResize() {
         this.adjustViewBasedOnWindowSize();
     }
-  /* Making the chart responsive */
+  // Making the chart responsive
   adjustViewBasedOnWindowSize() {
       const screenWidth = window.innerWidth;
       if (screenWidth <= 768) {

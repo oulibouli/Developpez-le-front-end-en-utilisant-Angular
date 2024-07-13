@@ -1,14 +1,18 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { OlympicService } from './olympic.service';
+import { provideHttpClient } from '@angular/common/http';
 
+// Test file for the olympic service
 describe('OlympicService', () => {
   let service: OlympicService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule], 
+      providers: [        
+        provideHttpClient(), // Provide the HttpClient along with HttpClientTesting
+        provideHttpClientTesting(),
+      ]
     });
     service = TestBed.inject(OlympicService);
   });

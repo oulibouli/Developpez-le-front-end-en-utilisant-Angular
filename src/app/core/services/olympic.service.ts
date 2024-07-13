@@ -9,7 +9,6 @@ import { OlympicCountry, Participation, DetailMappedData, OlympicMappedData } fr
   providedIn: 'root',
 })
 export class OlympicService {
-  nbCountries!: number
   nbJos!: number
   private olympicUrl = 'https://mp6a895b3ea21646b066.free.beeceptor.com/data';
   private olympics$ = new BehaviorSubject<OlympicCountry[]>([]);

@@ -11,6 +11,7 @@
         <p>{{ nbCountries }}</p>
     </div>
 </div>
+<!-- Display the chart -->
 <div id="chart-container" *ngIf="data; else loading">
     <ngx-charts-pie-chart
         [legendPosition]="legendPosition"

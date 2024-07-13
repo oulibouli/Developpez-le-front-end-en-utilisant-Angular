@@ -12,10 +12,10 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   styleUrl: './detail.component.scss'
 })
 export class DetailComponent implements OnInit, OnDestroy {
-  public olympics$!: Observable<OlympicCountry[]>
-  public data!: DetailMappedData[]
   private destroy$ = new Subject<void>();
-  id!: number
+  private id!: number
+  olympics$!: Observable<OlympicCountry[]>
+  data!: DetailMappedData[]
   title!: string
   nbParticipations!: number
   nbMedals!: number
@@ -51,7 +51,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.destroy$.next()
     this.destroy$.complete()
   }
-  /* Listening on resizing the window to make the chart responsive */
+  // Listening on resizing the window to make the chart responsive
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.adjustViewBasedOnWindowSize();
@@ -69,7 +69,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     });
   }
   
-  /* Making the chart responsive */
+  // Making the chart responsive
   adjustViewBasedOnWindowSize() {
     const screenWidth = window.innerWidth;
     if (screenWidth <= 768) {

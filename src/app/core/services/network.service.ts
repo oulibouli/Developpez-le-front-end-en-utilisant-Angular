@@ -9,18 +9,21 @@ import { OlympicService } from './olympic.service';
 })
 export class NetworkService {
   private statusOnline: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!navigator.onLine)
-  wasOnline:boolean = true
+  private wasOnline:boolean = true
+
   constructor(private snackBar: MatSnackBar, private olympicService: OlympicService) {
-    // Detection network status
+    // Detection of the network status
     window.addEventListener('offline', () => this.updateStatusOnline(true))
     window.addEventListener('online', () => this.updateStatusOnline(false))
   }
 
+  // Update the status of the network
   updateStatusOnline(status: boolean): void {
     this.statusOnline.next(status)
     this.wasOnline = !status
   }
 
+  // Check the status of the network
   getStatusOnline() : Observable<boolean> {
     return this.statusOnline.asObservable()
   }

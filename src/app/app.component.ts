@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private olympicService: OlympicService, private networkService: NetworkService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
+    // We susbcribe to the observable used to get the olympic data
     this.olympicService.loadInitialData().pipe(take(1)).subscribe();
 
     // We subscribe to an observable to check if network is offline & display a message

@@ -11,7 +11,7 @@ import { DetailComponent } from './pages/detail/detail.component';
 import { RouterLink } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-
+// Declaration of the modules used in the application
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent, DetailComponent],
   imports: [MatSnackBarModule,BrowserModule, NgxChartsModule, AppRoutingModule, BrowserAnimationsModule, RouterLink],

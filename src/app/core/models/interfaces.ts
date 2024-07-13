@@ -1,3 +1,4 @@
+// This file defines all the interfaces used in the application
 export interface OlympicCountry {
     id: number,
     country: string,
