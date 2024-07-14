@@ -5,6 +5,7 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Router } from '@angular/router';
 import { CHART_CONFIG } from 'src/app/core/config/chart-config';
 import { LegendPosition } from '@swimlane/ngx-charts';
+import { ResponsiveService } from 'src/app/core/services/responsive.service';
 
 @Component({
   selector: 'app-home',
@@ -38,11 +39,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   animations= CHART_CONFIG.animations;
 
 
-  constructor(private olympicService: OlympicService, private router: Router) {}
+  constructor(private olympicService: OlympicService, private router: Router, private responsiveService: ResponsiveService) {}
 
   ngOnInit(): void {
     // Make the app responsive when resizing the window
-    this.adjustViewBasedOnWindowSize();
+    this.adjustViewBasedOnWindowSize()
 
     // Get the data 
     this.olympicService.getOlympicMappedData().pipe(
@@ -69,17 +70,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   // Listening on resizing the window to make the chart responsive
   @HostListener('window:resize', ['$event'])
     onResize() {
-        this.adjustViewBasedOnWindowSize();
+      this.adjustViewBasedOnWindowSize()
     }
-  // Making the chart responsive
+
   adjustViewBasedOnWindowSize() {
-      const screenWidth = window.innerWidth;
-      if (screenWidth <= 768) {
-          this.view = [screenWidth - 30, 300]; // adjust chart for small screens
-          this.legendPosition = LegendPosition.Below // Put the legend below to read correctly
-      } else {
-        this.view = CHART_CONFIG.view; // Default value
-      }
+    this.view = this.responsiveService.adjustViewBasedOnWindowSize(window.innerWidth);
+    this.legendPosition = this.responsiveService.getLegendPosition(window.innerWidth);
   }
 }
 

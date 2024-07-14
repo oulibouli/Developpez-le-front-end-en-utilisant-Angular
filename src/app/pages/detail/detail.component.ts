@@ -5,6 +5,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { CHART_CONFIG } from 'src/app/core/config/chart-config';
 import { OlympicCountry, DetailMappedData } from 'src/app/core/models/interfaces';
 import { OlympicService } from 'src/app/core/services/olympic.service';
+import { ResponsiveService } from 'src/app/core/services/responsive.service';
 
 @Component({
   selector: 'app-detail',
@@ -34,10 +35,10 @@ export class DetailComponent implements OnInit, OnDestroy {
   yAxisLabel = CHART_CONFIG.yAxisLabel.country;
   animations= CHART_CONFIG.animations;
 
-  constructor(private olympicService: OlympicService,private route: ActivatedRoute) {}
+  constructor(private olympicService: OlympicService,private route: ActivatedRoute, private responsiveService: ResponsiveService) {}
 
   ngOnInit(): void {
-    this.adjustViewBasedOnWindowSize();
+    this.adjustViewBasedOnWindowSize()
     
     // Use paramMap instead of snapshot.params['id'] for observable based access
     this.route.paramMap.pipe(
@@ -54,7 +55,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   // Listening on resizing the window to make the chart responsive
   @HostListener('window:resize', ['$event'])
   onResize() {
-    this.adjustViewBasedOnWindowSize();
+    this.adjustViewBasedOnWindowSize()
   }
 
   loadData(): void {
@@ -68,15 +69,9 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.nbAthletes = this.olympicService.nbAthletes;
     });
   }
-  
-  // Making the chart responsive
+
   adjustViewBasedOnWindowSize() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 768) {
-        this.view = [screenWidth - 30, 300]; // adjust chart for small screens
-        this.legendPosition = LegendPosition.Below // Put the legend below to read correctly
-    } else {
-      this.view = CHART_CONFIG.view; // Default value
-    }
+    this.view = this.responsiveService.adjustViewBasedOnWindowSize(window.innerWidth);
+    this.legendPosition = this.responsiveService.getLegendPosition(window.innerWidth);
   }
 }
