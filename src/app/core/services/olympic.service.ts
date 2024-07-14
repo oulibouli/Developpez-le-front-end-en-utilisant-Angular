@@ -10,7 +10,7 @@ import { OlympicCountry, Participation, DetailMappedData, OlympicMappedData } fr
 })
 export class OlympicService {
   nbJos!: number
-  private olympicUrl = 'https://mp6a895b3ea21646b066.free.beeceptor.com/data';
+  private olympicUrl = '/assets/mock/olympic.json';
   private olympics$ = new BehaviorSubject<OlympicCountry[]>([]);
   private localStorageKey = 'olympicData';
   title!: string;
