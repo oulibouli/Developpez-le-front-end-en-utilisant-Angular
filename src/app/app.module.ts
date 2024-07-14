@@ -10,10 +10,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { DetailComponent } from './pages/detail/detail.component';
 import { RouterLink } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BannerComponent } from './pages/banner/banner.component';
 
 // Declaration of the modules used in the application
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NotFoundComponent, DetailComponent],
+  declarations: [AppComponent, HomeComponent, NotFoundComponent, DetailComponent, BannerComponent],
   imports: [MatSnackBarModule,BrowserModule, NgxChartsModule, AppRoutingModule, BrowserAnimationsModule, RouterLink],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent],
