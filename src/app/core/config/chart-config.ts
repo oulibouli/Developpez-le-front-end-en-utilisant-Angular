@@ -2,7 +2,7 @@ import { LegendPosition } from "@swimlane/ngx-charts";
 
 // Define the parameters for the charts
 export const CHART_CONFIG = {
-    view: [700, 400] as [number, number],
+    view: [800, 400] as [number, number],
     showXAxis: true,
     showYAxis: true,
     gradient: false,
