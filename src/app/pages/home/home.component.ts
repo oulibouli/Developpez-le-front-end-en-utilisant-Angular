@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { OlympicCountry, OlympicMappedData } from 'src/app/core/models/interfaces';
+import { OlympicMappedData } from 'src/app/core/models/interfaces';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Router } from '@angular/router';
 import { CHART_CONFIG } from 'src/app/core/config/chart-config';
-import { LegendPosition } from '@swimlane/ngx-charts';
 import { ResponsiveService } from 'src/app/core/services/responsive.service';
 
 @Component({
