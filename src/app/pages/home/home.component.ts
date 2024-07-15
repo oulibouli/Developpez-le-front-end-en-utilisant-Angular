@@ -39,12 +39,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
   constructor(private olympicService: OlympicService, private router: Router, private responsiveService: ResponsiveService) {}
-
+  
+  // When component initialized 
   ngOnInit(): void {
     // Make the app responsive when resizing the window
     this.adjustViewBasedOnWindowSize()
 
-    // Get the data 
+    // Get the data and map it from the observable pipe
     this.olympicService.getOlympicMappedData().pipe(
       takeUntil(this.destroy$)
     ).subscribe(data => {

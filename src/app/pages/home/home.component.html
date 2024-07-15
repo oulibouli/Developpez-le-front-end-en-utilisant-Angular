@@ -2,9 +2,9 @@
     <p>Welcome to the first interactive web app dedicated to the Olympic Games. The purpose of this application is to provide a dashboard to view information from previous Olympic Games (such as the number of medals per country ...)</p>
 </div>
 <div class="title-container">
-    <h1 class="title">{{ title }}</h1>
+    <h1 class="title">{{ title }}</h1> <!-- Display the title -->
 </div>
-<div class="container">
+<div class="container"> <!-- Div containing the boxes with data -->
     <div class="boxes">
         <p>Number of JOs</p>
         <p>{{ nbJos }}</p>
@@ -39,6 +39,7 @@
         </ng-template>
     </ngx-charts-pie-chart>
 </div>
+<!-- Template displayed if no data -->
 <ng-template #loading>
     <p>Loading...</p>
 </ng-template>

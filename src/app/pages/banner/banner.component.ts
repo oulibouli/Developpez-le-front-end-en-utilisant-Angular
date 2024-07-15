@@ -10,8 +10,5 @@ export class BannerComponent implements OnInit {
   subtitle:string = "by Télésport"
 
   constructor() {}
-
-  ngOnInit(): void {
-      
-  }
+  ngOnInit(): void {}
 }

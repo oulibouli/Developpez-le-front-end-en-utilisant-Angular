@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // We susbcribe to the observable used to get the olympic data
-    this.olympicService.loadInitialData().pipe(take(1)).subscribe();
+    this.olympicService.loadInitialData().pipe(take(1)).subscribe(); // Use of take(1) to load the initial values once at the startup 
 
     // We subscribe to an observable to check if network is offline & display a message
     this.networkService.getStatusOnline().subscribe((offline: boolean) => {

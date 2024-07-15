@@ -37,13 +37,15 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   constructor(private olympicService: OlympicService,private route: ActivatedRoute, private responsiveService: ResponsiveService) {}
 
+  // When component initialized 
   ngOnInit(): void {
-    this.adjustViewBasedOnWindowSize()
-    this.subscribeToRouteParams();
+    this.adjustViewBasedOnWindowSize() // Display the content depending on the window size
+    this.subscribeToRouteParams(); // Susbcribe to the parameters in the url
   }
+  // When component is destroyed
   ngOnDestroy(): void {
-    this.destroy$.next()
-    this.destroy$.complete()
+    this.destroy$.next() // Emit an empy value to notify the subscribers to unsuscribe (see takeUntil)
+    this.destroy$.complete() // End the Subject
   }
   // Listening on resizing the window to make the chart responsive
   @HostListener('window:resize')

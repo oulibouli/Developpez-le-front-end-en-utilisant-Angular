@@ -13,7 +13,7 @@ export class OlympicService {
   //For testing purpose only
   //private olympicUrl = 'https://mp6a895b3ea21646b066.free.beeceptor.com/data';
   private olympicUrl = '/assets/mock/olympic.json';
-  private olympics$ = new BehaviorSubject<OlympicCountry[]>([]);
+  private olympics$ = new BehaviorSubject<OlympicCountry[]>([]); // Using a BehaviorSubject, type of Observable to manage with the network status
   private localStorageKey = 'olympicData';
   nbJos!: number
   title!: string;
@@ -64,7 +64,7 @@ export class OlympicService {
   }
 
   getOlympicMappedData(): Observable<OlympicMappedData[]> {
-    return this.getOlympics().pipe(
+    return this.getOlympics().pipe( // pipe the data from the observable and map it
       map(response => {
           return response.map(country => ({
             name: country.country,
@@ -77,9 +77,9 @@ export class OlympicService {
     )
   }
   calculateOlympicMappedData(participations: Participation[]): number {
-    const jos = new Set();
+    const jos = new Set(); // Using a Set to get unique values
     for (const participation of participations) {
-      const keyJos = `${participation.year}-${participation.city}`;
+      const keyJos = `${participation.year}-${participation.city}`; // Define a unique key with year and city
       jos.add(keyJos);
     }
     this.nbJos = jos.size
@@ -87,9 +87,9 @@ export class OlympicService {
   }
 
   getCountryMappedData(id: number): Observable<DetailMappedData[]> {
-    return this.getOlympics().pipe(
+    return this.getOlympics().pipe( // pipe the data from the observable and map it
       map(response => {
-        const countryData = response.find(c => c.id === id);
+        const countryData = response.find(c => c.id === id); // Get the data retrieved from the id in the url parameters
         if(countryData) {
           this.title = countryData.country
           this.nbParticipations = countryData.participations.length

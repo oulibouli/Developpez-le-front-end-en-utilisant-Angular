@@ -1,8 +1,8 @@
 <a routerLink="/"><button>Go back</button></a>
 <div class="title-container">
-  <h1 class="title">{{ title }}</h1>
+  <h1 class="title">{{ title }}</h1> <!-- Display the title -->
 </div>
-<div class="container">
+<div class="container"> <!-- Div containing the boxes with data -->
   <div class="boxes">
       <p>Nb of entries</p>
       <p>{{ nbParticipations }}</p>
@@ -32,6 +32,8 @@
     [yAxisLabel]="yAxisLabel">
     </ngx-charts-line-chart>
   </div>
+
+  <!-- Template displayed if no data -->
   <ng-template #loading>
     <p>Loading...</p>
   </ng-template>
