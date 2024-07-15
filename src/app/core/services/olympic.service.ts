@@ -28,10 +28,7 @@ export class OlympicService {
       }), // update BehaviorSubject with the new data
       catchError((error) => {
         console.error(error);
-
-        this.snackBar.open('Error', 'Close', {
-          duration: 5000
-        });
+        this.snackBar.open('Error', 'Close', { duration: 5000 });
         return of([]); // if error, return a new empty observable
       })
     );
@@ -77,15 +74,14 @@ export class OlympicService {
       jos.add(keyJos);
     }
     this.nbJos = jos.size
-    const totalMedals = participations.reduce((total, participation) => total + participation.medalsCount, 0);
-    return totalMedals
+    return participations.reduce((total, participation) => total + participation.medalsCount, 0);
   }
 
   getCountryMappedData(id: number): Observable<DetailMappedData[]> {
     return this.getOlympics().pipe(
       map(response => {
         const countryData = response.find(c => c.id === id);
-        if(countryData){
+        if(countryData) {
           this.title = countryData.country
           this.nbParticipations = countryData.participations.length
           this.nbMedals = countryData.participations.reduce((total, participation) => total + participation.medalsCount, 0)
@@ -93,7 +89,7 @@ export class OlympicService {
 
           return this.calculateCountryMappedData(countryData.participations);
         }
-        else return []
+        else { return [] }
       })
     )
   }

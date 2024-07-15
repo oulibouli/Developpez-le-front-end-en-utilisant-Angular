@@ -17,15 +17,15 @@ export class NetworkService {
     window.addEventListener('online', () => this.updateStatusOffline(false))
   }
 
+  // Check the status of the network
+  getStatusOnline() : Observable<boolean> {
+    return this.statusOnline.asObservable()
+  }
+
   // Update the status of the network
   updateStatusOffline(status: boolean): void {
     this.statusOnline.next(status)
     this.wasOnline = !status
-  }
-
-  // Check the status of the network
-  getStatusOnline() : Observable<boolean> {
-    return this.statusOnline.asObservable()
   }
 
   // Display message if network is offline, or was offline and is online
