@@ -39,11 +39,15 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
       - **interfaces.ts** : Definition of interfaces used in the application.
     - **services** : Contains services used in the application.
       - **olympic.service.*** : Service to manage Olympic Games data (source and test files).
+      - **network.service.*** : Service to manage the lost of the network and notify the user.
+      - **responsive.service.*** : Service to make the chart and the legend responsive depending on the window size.
   - **pages** : Contains the page components of the application.
     - **detail** : Detail page component.
       - **detail.component.*** : Files related to the detail component (HTML, SCSS, spec.ts for tests, and the TypeScript file).
     - **home** : Home page component.
       - **home.component.*** : Files related to the home component (HTML, SCSS, spec.ts for tests, and the TypeScript file).
+    - **banner** : Banner component.
+      - **banner.component.*** : Files related to the banner component (HTML, SCSS, spec.ts for tests, and the TypeScript file).
     - **not-found** : Component for the "Not Found" (404) page.
       - **not-found.component.*** : Files related to the not-found component (HTML, SCSS, spec.ts for tests, and the TypeScript file).
 
