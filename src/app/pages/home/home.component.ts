@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Get the parameters for ngx-charts
   view = CHART_CONFIG.view;
-  legendPosition = CHART_CONFIG.legendposition
+  legendPosition = CHART_CONFIG.legendposition;
   showXAxis = CHART_CONFIG.showXAxis;
   showYAxis = CHART_CONFIG.showYAxis;
   gradient = CHART_CONFIG.gradient;
@@ -62,12 +62,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Route to the detailed page corresponding to the chosen country
   chooseCountry(event: OlympicMappedData) {
-    const id = event.extra.id
+    const {id} = event.extra
     this.router.navigateByUrl(`/detail/${id}`)
   }
 
   // Listening on resizing the window to make the chart responsive
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
     onResize() {
       this.adjustViewBasedOnWindowSize()
     }

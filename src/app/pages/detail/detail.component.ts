@@ -39,7 +39,19 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.adjustViewBasedOnWindowSize()
-    
+    this.subscribeToRouteParams();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.complete()
+  }
+  // Listening on resizing the window to make the chart responsive
+  @HostListener('window:resize')
+  onResize() {
+    this.adjustViewBasedOnWindowSize()
+  }
+
+  subscribeToRouteParams(): void {
     // Use paramMap instead of snapshot.params['id'] for observable based access
     this.route.paramMap.pipe(
       takeUntil(this.destroy$)
@@ -47,15 +59,6 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.id = Number(params.get('id')); // Retrieve id from paramMap
       this.loadData() // load the data after getting the id
     });
-  }
-  ngOnDestroy(): void {
-    this.destroy$.next()
-    this.destroy$.complete()
-  }
-  // Listening on resizing the window to make the chart responsive
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.adjustViewBasedOnWindowSize()
   }
 
   loadData(): void {
