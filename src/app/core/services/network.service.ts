@@ -2,7 +2,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, take } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { OlympicService } from './olympic.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ export class NetworkService {
   private statusOnline: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!navigator.onLine)
   private wasOnline:boolean = true
 
-  constructor(private snackBar: MatSnackBar, private olympicService: OlympicService) {
+  constructor(private snackBar: MatSnackBar) {
     // Detection of the network status
     window.addEventListener('offline', () => this.updateStatusOffline(true))
     window.addEventListener('online', () => this.updateStatusOffline(false))
@@ -36,9 +35,6 @@ export class NetworkService {
       this.snackBar.open(message,'', { duration: 1500 })
     } else if(!offline && !this.wasOnline) {
       message = 'You are now online. Data will be updated.'
-
-      //Refresh the data
-      this.olympicService.loadInitialData().pipe(take(1)).subscribe();
 
       // Display the notification message
       if(message) { this.snackBar.open(message,'', { duration: 1500 }) }

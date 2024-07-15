@@ -4,21 +4,37 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { OlympicCountry, Participation, DetailMappedData, OlympicMappedData } from 'src/app/core/models/interfaces';
+import { NetworkService } from './network.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OlympicService {
-  nbJos!: number
+  //For testing purpose only
+  //private olympicUrl = 'https://mp6a895b3ea21646b066.free.beeceptor.com/data';
   private olympicUrl = '/assets/mock/olympic.json';
   private olympics$ = new BehaviorSubject<OlympicCountry[]>([]);
   private localStorageKey = 'olympicData';
+  nbJos!: number
   title!: string;
   nbParticipations!: number;
   nbMedals!: number;
   nbAthletes!: number;
   
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, private networkService: NetworkService) {
+    
+    // We subscribe to networkService observable to check when user goes offline and load data from localStorage.
+    // If back online, we reload the data from the data source
+    this.networkService.getStatusOnline().subscribe((offline) => {
+      const cachedData = this.getFromLocalStorage()
+      if(cachedData && cachedData.length > 0 && offline) {
+        this.olympics$.next(cachedData)
+      }
+      else {
+        this.loadInitialData().subscribe()
+      }
+    })
+  }
 
   loadInitialData() {
     return this.http.get<OlympicCountry[]>(this.olympicUrl).pipe(
@@ -44,13 +60,6 @@ export class OlympicService {
   }
 
   getOlympics():Observable<OlympicCountry[]>{
-    const cachedData = this.getFromLocalStorage()
-    if(cachedData && cachedData.length > 0) {
-      this.olympics$.next(cachedData)
-    }
-    else {
-      this.loadInitialData()
-    }
     return this.olympics$
   }
 
