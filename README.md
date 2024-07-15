@@ -4,12 +4,21 @@ OlympicGamesStarter
 # Description
 This application is an Olympic Games project builded with Angular. Its goal is to provide a simple and interactive interface to globally see the medals won by the countries, and to analyse the data in details for each one
 
+# Versions
+* Nodejs 20.15.0
+* Npm 10.7.0
+* Angular 18.0.5
+
 
 # Installation
-1. Clone the repository & Install the dependencies : 
-- git clone https://github.com/oulibouli/Developpez-le-front-end-en-utilisant-Angular.git 
-- cd Developpez-le-front-end-en-utilisant-Angular 
-- npm install
+## Clone the repository & Install the dependencies : 
+1. Install _node.js_ and _npm_:
+https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
+2. Open a terminal and run these commands:
+- _git clone https://github.com/oulibouli/Developpez-le-front-end-en-utilisant-Angular.git_
+- _cd Developpez-le-front-end-en-utilisant-Angular_
+- _npm install_
 
 # Use
 ## Development server
@@ -19,6 +28,16 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Other usage
+See [Scripts section](#scripts)
+
+# Scripts
+- ng : Start CLI Angular
+- npm start : Start the dev server
+- npm run build : Compile the app for production
+- npm run  watch : Compile the app in surveillance mode
+- npm test : Start the unit tests
 
 # Directory Structure
 
@@ -64,13 +83,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## `node_modules` : Contains the installed modules
 
-# Available scripts
-- ng : Start CLI Angular
-- npm start : Start the dev server
-- npm run build : Compile the app for production
-- npm run  watch : Compile the app in surveillance mode
-- npm test : Start the unit tests
-
 # Modules
 
 - HttpClientModule deprecated => Replaced by provideHttpClient() in the providers
@@ -83,11 +95,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - BrowserAnimationsModule
 - DetailComponent
 - RouterLink
-
-# Versions
-* Nodejs 20.15.0
-* Npm 10.7.0
-* Angular 18.0.5
 
 # Dependencies
 * @angular/animations: ^18.0.3
