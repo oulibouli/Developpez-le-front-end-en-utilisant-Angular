@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Get the parameters for ngx-charts
   view = CHART_CONFIG.view;
-  legendPosition = CHART_CONFIG.legendposition;
+  legendPosition = CHART_CONFIG.legendPosition;
   showXAxis = CHART_CONFIG.showXAxis;
   showYAxis = CHART_CONFIG.showYAxis;
   gradient = CHART_CONFIG.gradient;
@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.adjustViewBasedOnWindowSize()
     }
 
-  adjustViewBasedOnWindowSize() {
+  private adjustViewBasedOnWindowSize() {
     this.view = this.responsiveService.adjustViewBasedOnWindowSize(window.innerWidth);
     this.legendPosition = this.responsiveService.getLegendPosition(window.innerWidth);
   }

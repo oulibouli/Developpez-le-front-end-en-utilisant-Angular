@@ -1,13 +1,13 @@
 // This service will check if the user network is online/offline
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, take } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NetworkService {
-  private statusOnline: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!navigator.onLine)
+  private networkStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!navigator.onLine)
   private wasOnline:boolean = true
 
   constructor(private snackBar: MatSnackBar) {
@@ -17,18 +17,18 @@ export class NetworkService {
   }
 
   // Check the status of the network
-  getStatusOnline() : Observable<boolean> {
-    return this.statusOnline.asObservable()
+  getNetworkStatus() : Observable<boolean> {
+    return this.networkStatus.asObservable()
   }
 
   // Update the status of the network
-  updateStatusOffline(status: boolean): void {
-    this.statusOnline.next(status)
+  private updateStatusOffline(status: boolean): void {
+    this.networkStatus.next(status)
     this.wasOnline = !status
   }
 
   // Display message if network is offline, or was offline and is online
-  networkStatus(offline: boolean): void {
+  networkStatusMessage(offline: boolean): void {
     let message:string = ''
     if(offline && this.wasOnline) {
       message = 'You are not online. Data will not be updated.'
