@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LegendPosition } from '@swimlane/ngx-charts';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CHART_CONFIG } from 'src/app/core/config/chart-config';
 import { OlympicCountry, DetailMappedData } from 'src/app/core/models/interfaces';
@@ -24,7 +23,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   // Get the parameters for ngx-charts
   view = CHART_CONFIG.view;
-  legendPosition = CHART_CONFIG.legendposition
+  legendPosition = CHART_CONFIG.legendPosition
   showXAxis = CHART_CONFIG.showXAxis;
   showYAxis = CHART_CONFIG.showYAxis;
   gradient = CHART_CONFIG.gradient;
@@ -53,7 +52,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.adjustViewBasedOnWindowSize()
   }
 
-  subscribeToRouteParams(): void {
+  private subscribeToRouteParams(): void {
     // Use paramMap instead of snapshot.params['id'] for observable based access
     this.route.paramMap.pipe(
       takeUntil(this.destroy$)
@@ -63,7 +62,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadData(): void {
+  private loadData(): void {
     this.olympicService.getCountryMappedData(this.id).pipe(
       takeUntil(this.destroy$)
     ).subscribe(data => {
@@ -75,7 +74,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  adjustViewBasedOnWindowSize() {
+  private adjustViewBasedOnWindowSize() {
     this.view = this.responsiveService.adjustViewBasedOnWindowSize(window.innerWidth);
     this.legendPosition = this.responsiveService.getLegendPosition(window.innerWidth);
   }

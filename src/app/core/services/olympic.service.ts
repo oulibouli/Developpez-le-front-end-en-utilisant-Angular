@@ -25,7 +25,7 @@ export class OlympicService {
     
     // We subscribe to networkService observable to check when user goes offline and load data from localStorage.
     // If back online, we reload the data from the data source
-    this.networkService.getStatusOnline().subscribe((offline) => {
+    this.networkService.getNetworkStatus().subscribe((offline) => {
       const cachedData = this.getFromLocalStorage()
       if(cachedData && cachedData.length > 0 && offline) {
         this.olympics$.next(cachedData)
@@ -50,7 +50,7 @@ export class OlympicService {
     );
   }
 
-  saveToLocalStorage(data: OlympicCountry[]): void {
+  private saveToLocalStorage(data: OlympicCountry[]): void {
     localStorage.setItem(this.localStorageKey, JSON.stringify(data));
   }
 
@@ -76,7 +76,7 @@ export class OlympicService {
       })
     )
   }
-  calculateOlympicMappedData(participations: Participation[]): number {
+  private calculateOlympicMappedData(participations: Participation[]): number {
     const jos = new Set(); // Using a Set to get unique values
     for (const participation of participations) {
       const keyJos = `${participation.year}-${participation.city}`; // Define a unique key with year and city
@@ -102,7 +102,7 @@ export class OlympicService {
       })
     )
   }
-  calculateCountryMappedData(participations: Participation[]): DetailMappedData[] {
+  private calculateCountryMappedData(participations: Participation[]): DetailMappedData[] {
     return [
       {
         "name": "Medals Count",

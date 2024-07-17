@@ -16,5 +16,5 @@ export const CHART_CONFIG = {
     arcWidth: 0.35,
     tooltipDisabled: false,
     animations: true,
-    legendposition: LegendPosition.Right
+    legendPosition: LegendPosition.Right
 }

@@ -1,4 +1,4 @@
-<a routerLink="/"><button>Go back</button></a>
+<a routerLink="/"><button>Go back</button></a> <!-- Button to go back to main page -->
 <div class="title-container">
   <h1 class="title">{{ title }}</h1> <!-- Display the title -->
 </div>
@@ -32,7 +32,6 @@
     [yAxisLabel]="yAxisLabel">
     </ngx-charts-line-chart>
   </div>
-
   <!-- Template displayed if no data -->
   <ng-template #loading>
     <p>Loading...</p>
