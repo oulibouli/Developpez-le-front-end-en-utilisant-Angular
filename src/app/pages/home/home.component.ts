@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Make the app responsive when resizing the window
     this.adjustViewBasedOnWindowSize()
 
-    // Get the data and map it from the observable pipe
+    // Get the data and map it from the observable pipe to the component
     this.olympicService.getOlympicMappedData().pipe(
       takeUntil(this.destroy$)
     ).subscribe(data => {
@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.complete()
   }
 
-  // Route to the detailed page corresponding to the chosen country
+  // Route to the detailed page corresponding to the chosen country in the chart
   chooseCountry(event: OlympicMappedData) {
     const {id} = event.extra
     this.router.navigateByUrl(`/detail/${id}`)
@@ -73,6 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.adjustViewBasedOnWindowSize()
     }
 
+  // Display the content depending on the window size
   private adjustViewBasedOnWindowSize() {
     this.view = this.responsiveService.adjustViewBasedOnWindowSize(window.innerWidth);
     this.legendPosition = this.responsiveService.getLegendPosition(window.innerWidth);

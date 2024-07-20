@@ -14,7 +14,7 @@
         <p>{{ nbCountries }}</p>
     </div>
 </div>
-<!-- Display the chart -->
+<!-- Display the chart with defined parameters -->
 <div id="chart-container" *ngIf="data; else loading">
     <ngx-charts-pie-chart
         [legendPosition]="legendPosition"
@@ -29,6 +29,7 @@
         [tooltipDisabled]="tooltipDisabled"
         (select)="chooseCountry($event)"
         [animations]="animations">
+        <!-- Tooltip template -->
         <ng-template #tooltipTemplate let-model="model">
             <div class="tooltip">
                 {{ model.name }}

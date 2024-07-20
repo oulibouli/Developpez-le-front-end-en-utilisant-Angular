@@ -7,11 +7,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class NetworkService {
+  // Use of BehaviorSubject to keep the last value received. Need to be initialized with a value.
+  // BehaviorSubject give access to the next() method.
   private networkStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!navigator.onLine)
+  // State of the network before it changes
   private wasOnline:boolean = true
 
   constructor(private snackBar: MatSnackBar) {
-    // Detection of the network status
+    // Listening to the network status changes
     window.addEventListener('offline', () => this.updateStatusOffline(true))
     window.addEventListener('online', () => this.updateStatusOffline(false))
   }
@@ -27,7 +30,7 @@ export class NetworkService {
     this.wasOnline = !status
   }
 
-  // Display message if network is offline, or was offline and is online
+  // Display a message if network is offline, or was offline and is online
   networkStatusMessage(offline: boolean): void {
     let message:string = ''
     if(offline && this.wasOnline) {

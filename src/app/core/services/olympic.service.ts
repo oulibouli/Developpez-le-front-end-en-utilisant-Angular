@@ -13,7 +13,8 @@ export class OlympicService {
   //For testing purpose only
   //private olympicUrl = 'https://mp6a895b3ea21646b066.free.beeceptor.com/data';
   private olympicUrl = '/assets/mock/olympic.json';
-  private olympics$ = new BehaviorSubject<OlympicCountry[]>([]); // Using a BehaviorSubject, type of Observable to manage with the network status
+  // Using a BehaviorSubject, type of Observable to manage with the cache data and provide next() method.
+  private olympics$ = new BehaviorSubject<OlympicCountry[]>([]);
   private localStorageKey = 'olympicData';
   nbJos!: number
   title!: string;
@@ -37,15 +38,18 @@ export class OlympicService {
   }
 
   loadInitialData() {
+    // User HttpClient to return the observable and pipe the data
     return this.http.get<OlympicCountry[]>(this.olympicUrl).pipe(
+      // Use tap() to save data into localStorage and update the BehaviorSubject.
       tap((value) => {
         this.saveToLocalStorage(value);
         this.olympics$.next(value)
-      }), // update BehaviorSubject with the new data
+      }),
+      // if error, display an error message and return an empty observable
       catchError((error) => {
         console.error(error);
         this.snackBar.open('Error', 'Close', { duration: 5000 });
-        return of([]); // if error, return a new empty observable
+        return of([]);
       })
     );
   }
@@ -60,7 +64,7 @@ export class OlympicService {
   }
 
   getOlympics():Observable<OlympicCountry[]>{
-    return this.olympics$
+    return this.olympics$;
   }
 
   getOlympicMappedData(): Observable<OlympicMappedData[]> {
@@ -82,7 +86,7 @@ export class OlympicService {
       const keyJos = `${participation.year}-${participation.city}`; // Define a unique key with year and city
       jos.add(keyJos);
     }
-    this.nbJos = jos.size
+    this.nbJos = jos.size;
     return participations.reduce((total, participation) => total + participation.medalsCount, 0);
   }
 

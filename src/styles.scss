@@ -6,7 +6,7 @@ body {
 }
 
 .title-container {
-    display: flex;
+    display: flex; // Use flexbox to make elements responsive
     justify-content: center;
     align-items: center; /* vertically align */
     margin-top: 20px;
@@ -81,11 +81,19 @@ button {
     .container {
         flex-direction: column; /* Switch to a column layout on small screens. */
         align-items: stretch; /* Stretch elements across the entire width */
+        padding-bottom: 16px;
+        margin-top: 0px;
     }
 
     .boxes {
         flex: 1 1 100%; /* box on full width */
         margin: 10px 0;
+    }
+    #chart-container {
+        height: 25vh;
+    }
+    .title-container {
+        margin-top: 0px;
     }
 }
 

@@ -21,7 +21,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   nbMedals!: number
   nbAthletes!: number
 
-  // Get the parameters for ngx-charts
+  // Get the parameters for ngx-charts from the config file `chart-config.ts`
   view = CHART_CONFIG.view;
   legendPosition = CHART_CONFIG.legendPosition
   showXAxis = CHART_CONFIG.showXAxis;
@@ -36,15 +36,15 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   constructor(private olympicService: OlympicService,private route: ActivatedRoute, private responsiveService: ResponsiveService) {}
 
-  // When component initialized 
+  // When component is initialized 
   ngOnInit(): void {
     this.adjustViewBasedOnWindowSize() // Display the content depending on the window size
-    this.subscribeToRouteParams(); // Susbcribe to the parameters in the url
+    this.subscribeToRouteParams(); // Susbcribe to the parameters in the url and load the data
   }
   // When component is destroyed
   ngOnDestroy(): void {
-    this.destroy$.next() // Emit an empy value to notify the subscribers to unsuscribe (see takeUntil)
-    this.destroy$.complete() // End the Subject
+    this.destroy$.next() // Emit an empy value to notify the subscribers to unsuscribe (see `takeUntil`)
+    this.destroy$.complete() // Complete and terminate the Subject
   }
   // Listening on resizing the window to make the chart responsive
   @HostListener('window:resize')
@@ -53,9 +53,9 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToRouteParams(): void {
-    // Use paramMap instead of snapshot.params['id'] for observable based access
+    // Use `paramMap` instead of `snapshot.params['id']` for observable based access
     this.route.paramMap.pipe(
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$) // Unsuscribe the observable when component is destroyed
     ).subscribe(params => {
       this.id = Number(params.get('id')); // Retrieve id from paramMap
       this.loadData() // load the data after getting the id
@@ -64,8 +64,8 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   private loadData(): void {
     this.olympicService.getCountryMappedData(this.id).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(data => {
+      takeUntil(this.destroy$) // Unsuscribe the observable when component is destroyed
+    ).subscribe(data => { // Map the data from the observable suscribed to the component
       this.data = data;
       this.title = this.olympicService.title;
       this.nbParticipations = this.olympicService.nbParticipations;
@@ -74,6 +74,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Display the content depending on the window size
   private adjustViewBasedOnWindowSize() {
     this.view = this.responsiveService.adjustViewBasedOnWindowSize(window.innerWidth);
     this.legendPosition = this.responsiveService.getLegendPosition(window.innerWidth);
