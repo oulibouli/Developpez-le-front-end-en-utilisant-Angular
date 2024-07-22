@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { OlympicService } from './core/services/olympic.service';
 import { NetworkService } from './core/services/network.service';
 
@@ -10,6 +10,7 @@ import { NetworkService } from './core/services/network.service';
 })
 export class AppComponent implements OnInit {
   title:string = 'olympic-games-starter';
+  private networkStatusSubscription!: Subscription;
 
   constructor(private olympicService: OlympicService, private networkService: NetworkService) {}
 
@@ -19,8 +20,14 @@ export class AppComponent implements OnInit {
     this.olympicService.loadInitialData().pipe(take(1)).subscribe();
 
     // We subscribe to an observable to check if the network is offline & display a message
-    this.networkService.getNetworkStatus().subscribe((offline: boolean) => {
-      this.networkService.networkStatusMessage(offline)
-    })
+    this.networkStatusSubscription = this.networkService.getNetworkStatus().subscribe((offline: boolean) => {
+      this.networkService.networkStatusMessage(offline);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.networkStatusSubscription) {
+      this.networkStatusSubscription.unsubscribe();
+    }
   }
 }

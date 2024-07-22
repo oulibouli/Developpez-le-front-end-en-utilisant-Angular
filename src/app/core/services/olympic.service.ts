@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { OlympicCountry, Participation, DetailMappedData, OlympicMappedData } from 'src/app/core/models/interfaces';
 import { NetworkService } from './network.service';
 
@@ -26,13 +26,13 @@ export class OlympicService {
     
     // We subscribe to networkService observable to check when user goes offline and load data from localStorage.
     // If back online, we reload the data from the data source
-    this.networkService.getNetworkStatus().subscribe((offline) => {
+    this.networkService.getNetworkStatus().pipe(take(1)).subscribe((offline) => {
       const cachedData = this.getFromLocalStorage()
       if(cachedData && cachedData.length > 0 && offline) {
         this.olympics$.next(cachedData)
       }
       else {
-        this.loadInitialData().subscribe()
+        this.loadInitialData().pipe(take(1)).subscribe()
       }
     })
   }
