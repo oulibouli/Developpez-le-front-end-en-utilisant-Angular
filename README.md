@@ -67,6 +67,8 @@ See [Scripts section](#scripts)
       - **not-found.component.*** : Files related to the not-found component (HTML, SCSS, spec.ts for tests, and the TypeScript file).
 
 - **assets** : Contains static files such as images, JSON files for mock data, etc.
+  - **images** : Contains images.
+    - **banner.png** : Banner image
   - **mock** : Contains mock data.
     - **olympic.json** : Mock data for the Olympic Games.
 
